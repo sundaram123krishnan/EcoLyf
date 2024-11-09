@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { signIn, signOut } from '$lib/auth-client';
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -9,7 +10,6 @@
 	import House from 'lucide-svelte/icons/house';
 	import Search from 'lucide-svelte/icons/search';
 	import Settings from 'lucide-svelte/icons/settings';
-	import * as Avatar from "$lib/components/ui/avatar/index.js";
 
 	async function handleSignIn() {
 		await signIn.social({ provider: 'google', callbackURL: '/' });
@@ -37,7 +37,6 @@
 			icon: Settings
 		}
 	];
-
 </script>
 
 <Sidebar.Root>
@@ -70,12 +69,16 @@
 							{#snippet child({ props })}
 								<Sidebar.MenuButton
 									{...props}
-									class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground py-8"
+									class="py-8 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 								>
 									<Avatar.Root>
-										<Avatar.Image src={$page.data.user.image} alt="@shadcn" referrerpolicy="no-referrer" />
+										<Avatar.Image
+											src={$page.data.user.image}
+											alt="@shadcn"
+											referrerpolicy="no-referrer"
+										/>
 										<Avatar.Fallback>CN</Avatar.Fallback>
-									  </Avatar.Root>
+									</Avatar.Root>
 									{$page.data.user.name}
 
 									<ChevronUp class="ml-auto" />

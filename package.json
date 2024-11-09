@@ -39,8 +39,9 @@
 		"zod": "^3.23.8"
 	},
 	"dependencies": {
-		"mode-watcher": "^0.4.1",
 		"@prisma/client": "^5.22.0",
-		"better-auth": "^0.8.1-beta.4"
+		"@zxing/library": "^0.21.3",
+		"better-auth": "^0.8.1-beta.4",
+		"mode-watcher": "^0.4.1"
 	}
 }
