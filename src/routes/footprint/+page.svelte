@@ -20,12 +20,12 @@
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 	let { data } = $props();
 	let totalEmission = data.activities.reduce((sum, activity) => sum + activity.emission, 0);
-	totalEmission = (totalEmission * 100).toFixed(2);
+	totalEmission = Number((totalEmission * 100).toFixed(2));
 	let sortedActivities = [...data.activities].sort((a, b) => b.emission - a.emission).slice(0, 5);
 	let color = '';
 	if (totalEmission < 50) {
 		color = 'green';
-	} else if (totalEmission >= 75) {
+	} else if (totalEmission >= 75 && totalEmission <= 100) {
 		color = 'yellow';
 	} else {
 		color = 'red';
