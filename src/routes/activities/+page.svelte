@@ -3,6 +3,7 @@
 	import ElectricityUsage from './ElectricityUsage.svelte';
 	import type { Activity } from './types';
 	import VehicleUsage from './VehicleUsage.svelte';
+	import WasteDisposal from './WasteDisposal.svelte';
 
 	let activities: Activity[] = $state([]);
 	let selectedValue = $state<string>();
@@ -39,6 +40,8 @@
 	<ElectricityUsage {addActivity} />
 	{:else if selectedValue === "Private vehicles"}
 	<VehicleUsage {addActivity}/>
+	{:else if selectedValue === "Waste disposal"}
+	<WasteDisposal {addActivity}/>
 
 
 {/if}

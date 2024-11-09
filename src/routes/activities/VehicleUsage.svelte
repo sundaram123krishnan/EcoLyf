@@ -53,7 +53,7 @@
             {#if selectedValue}
                 {selectedValue}
             {:else}
-                Pick an activity to add
+                Select Fuel Type
             {/if}
         </Select.Trigger>
         <Select.Content>
