@@ -22,6 +22,7 @@
 			type="number"
 			id="electricity-usage"
 			placeholder="in kWh"
+			step={0.01}
 			bind:value={electricityUsage}
 		/>
 	</div>
@@ -31,6 +32,7 @@
 			type="number"
 			id="emission-factor"
 			placeholder="~0.91 for coal"
+			step={0.01}
 			bind:value={emissionFactor}
 		/>
 	</div>
