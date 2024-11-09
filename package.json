@@ -43,6 +43,7 @@
 	"dependencies": {
 		"@prisma/client": "^5.22.0",
 		"@zxing/library": "^0.21.3",
-		"better-auth": "^0.8.1-beta.4"
+		"better-auth": "^0.8.1-beta.4",
+		"chart.js": "^4.4.6"
 	}
 }
