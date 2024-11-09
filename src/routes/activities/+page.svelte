@@ -2,6 +2,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ElectricityUsage from './ElectricityUsage.svelte';
 	import type { Activity } from './types';
+	import VehicleUsage from './VehicleUsage.svelte';
 
 	let activities: Activity[] = $state([]);
 	let selectedValue = $state<string>();
@@ -36,4 +37,8 @@
 
 {#if selectedValue === 'Electricity consumption'}
 	<ElectricityUsage {addActivity} />
+	{:else if selectedValue === "Private vehicles"}
+	<VehicleUsage {addActivity}/>
+
+
 {/if}
