@@ -1,12 +1,17 @@
 <script lang="ts">
-	import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
-	import { onMount } from 'svelte';
-	import { LoaderCircle } from 'lucide-svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import H1 from '$lib/components/ui/typography/H1.svelte';
+	import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
+	import { LoaderCircle } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
 
-	let scannerOpen = $state(true);
+	// let scannerOpen = $state(true);
+	// let fetchingDetails = $state(false);
+	// let productData = $state<any>();
+
+	let scannerOpen = $state(false);
 	let fetchingDetails = $state(false);
 	let productData = $state<any>({
 		_id: '5053990137787',
@@ -1524,12 +1529,45 @@
 		weighers_tags: []
 	});
 
+	const getNumbers = (str: string) => {
+		const result = str.match(/\d+(\.\d+)?/g);
+		return result ? result.map(Number) : [];
+	};
+
 	async function getProductData(barcode: string) {
 		fetchingDetails = true;
 		const response = await fetch(`https://world.openfoodfacts.org/api/v3/product/${barcode}.json`);
 		productData = (await response.json()).product;
 		console.log(productData);
 		fetchingDetails = false;
+	}
+
+	function estimateEmissions(grade: string, quantity: string) {
+		grade = grade.toUpperCase();
+		const numQuantity = getNumbers(quantity)[0] / 1000;
+		const emissionsFactors: Record<string, number> = {
+			A: 0.1, // kg CO₂e per kg for grade A
+			B: 0.3, // kg CO₂e per kg for grade B
+			C: 0.6, // kg CO₂e per kg for grade C
+			D: 1.0, // kg CO₂e per kg for grade D
+			E: 2.0 // kg CO₂e per kg for grade E
+		};
+
+		const upperGrade = grade.toUpperCase();
+		const emissions = emissionsFactors[upperGrade] * numQuantity;
+		return emissions;
+	}
+
+	async function submitProduct() {
+		const response = await fetch('/api/products', {
+			method: 'POST',
+			body: JSON.stringify({
+				createdAt: new Date(),
+				name: productData.product_name,
+				emission: estimateEmissions(productData.ecoscore_grade.toUpperCase(), productData.quantity)
+			})
+		});
+		toast.success(await response.text());
 	}
 
 	onMount(async () => {
@@ -1564,61 +1602,49 @@
 	</div>
 {/if}
 
-<div class="grid grid-cols-2 gap-2">
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Brand Name</Card.Title>
-			<Card.Description>{productData.product_name}</Card.Description>
-		</Card.Header>
-	</Card.Root>
+{#if productData}
+	<div class="grid grid-cols-2 grid-rows-3 gap-2">
+		<Card.Root>
+			<Card.Header class="py-6">
+				<Card.Title>Product name</Card.Title>
+				<Card.Description>{productData.product_name}</Card.Description>
+			</Card.Header>
+		</Card.Root>
 
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Ecoscore Grade</Card.Title>
-			<Card.Description>{productData.ecoscore_grade}</Card.Description>
-		</Card.Header>
-	</Card.Root>
+		<Card.Root class="row-span-4">
+			<Card.Header class="py-6">
+				<Card.Title>Image</Card.Title>
+			</Card.Header>
+			<Card.Content>
+				<img alt="product logo" src={productData.image_url} />
+			</Card.Content>
+		</Card.Root>
 
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Country</Card.Title>
-			<Card.Description>{productData.countries.slice(3)}</Card.Description>
-		</Card.Header>
-	</Card.Root>
+		<Card.Root>
+			<Card.Header class="py-6">
+				<Card.Title>Ecoscore grade</Card.Title>
+				<Card.Description>{productData.ecoscore_grade}</Card.Description>
+			</Card.Header>
+		</Card.Root>
 
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Quantity</Card.Title>
-			<Card.Description>{productData.quantity}</Card.Description>
-		</Card.Header>
-	</Card.Root>
+		<Card.Root>
+			<Card.Header class="py-6">
+				<Card.Title>Quantity</Card.Title>
+				<Card.Description>{productData.quantity}</Card.Description>
+			</Card.Header>
+		</Card.Root>
 
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Ingredients</Card.Title>
-		</Card.Header>
-		<Card.Content class="flex flex-wrap gap-1">
-			{#each productData.ingredients_hierarchy as ingredient}
-				<Badge variant="secondary">
-					{ingredient
-						.slice(3)
-						.replace(/-/g, ' ')
-						.replace(/\b\w/g, (char: string) => char.toUpperCase())}
-				</Badge>
-			{/each}
-		</Card.Content>
-	</Card.Root>
+		<Card.Root>
+			<Card.Header class="py-6">
+				<Card.Title>Estimated emissions</Card.Title>
+				<Card.Description>
+					{estimateEmissions(productData.ecoscore_grade.toUpperCase(), productData.quantity)}
+				</Card.Description>
+			</Card.Header>
+		</Card.Root>
+	</div>
 
-	{#if productData.packaging}
-		<p>{productData.packaging}</p>
-	{/if}
-
-	<Card.Root>
-		<Card.Header class="py-6">
-			<Card.Title>Image</Card.Title>
-		</Card.Header>
-		<Card.Content>
-			<img alt="product logo" src={productData.image_url} />
-		</Card.Content>
-	</Card.Root>
-</div>
+	<div class="flex w-full items-end">
+		<Button class="ml-auto" onclick={submitProduct}>Add product</Button>
+	</div>
+{/if}
