@@ -4,6 +4,8 @@
 	import type { Activity } from './types';
 	import VehicleUsage from './VehicleUsage.svelte';
 	import WasteDisposal from './WasteDisposal.svelte';
+	import FoodConsumption from './FoodConsumption.svelte';
+	import SmokingIndoors from './SmokingIndoors.svelte';
 
 	let activities: Activity[] = $state([]);
 	let selectedValue = $state<string>();
@@ -29,19 +31,19 @@
 		<Select.Item value="Private vehicles">Private vehicles</Select.Item>
 		<Select.Item value="Electricity consumption">Electricity consumption</Select.Item>
 		<Select.Item value="Waste disposal">Waste disposal</Select.Item>
-		<Select.Item value="Plastics usage">Plastics usage</Select.Item>
-		<Select.Item value="Water usage">Water usage</Select.Item>
+		<Select.Item value="Food consumption">Food Consumption</Select.Item>
 		<Select.Item value="Smoking indoors">Smoking indoors</Select.Item>
-		<Select.Item value="Using aerosols">Using aerosols</Select.Item>
 	</Select.Content>
 </Select.Root>
 
 {#if selectedValue === 'Electricity consumption'}
 	<ElectricityUsage {addActivity} />
-	{:else if selectedValue === "Private vehicles"}
-	<VehicleUsage {addActivity}/>
-	{:else if selectedValue === "Waste disposal"}
-	<WasteDisposal {addActivity}/>
-
-
+{:else if selectedValue === 'Private vehicles'}
+	<VehicleUsage {addActivity} />
+{:else if selectedValue === 'Waste disposal'}
+	<WasteDisposal {addActivity} />
+{:else if selectedValue === 'Food consumption'}
+	<FoodConsumption {addActivity} />
+{:else if selectedValue === 'Smoking indoors'}
+	<SmokingIndoors {addActivity} />
 {/if}

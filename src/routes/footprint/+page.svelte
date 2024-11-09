@@ -1,2 +1,1 @@
-
 <p>Footprint</p>
