@@ -5,11 +5,11 @@
 	import '../app.css';
 	import SideBar from './SideBar.svelte';
 	import { onMount } from 'svelte';
-	import { Leaf } from 'lucide-svelte';
+	import { Leaf, LeafyGreen } from 'lucide-svelte';
 
 	let { children } = $props();
 
-	const numLeaves = 10;
+	const numLeaves = 15;
 	let leaves = $state<any[]>([]);
 
 	const randomizeLeaves = () => {
@@ -19,7 +19,7 @@
 			flip: Math.random() < 0.5 ? -1 : 1, // Flip horizontally
 			xPos: Math.random() * 100, // Position from left in percentage
 			yPos: Math.random() * 100, // Position from top in percentage
-			animationDuration: Math.random() * 10 + 5 // Random speed for animation
+			animationDuration: Math.random() * 10 + 5 // Random speed for animation,
 		}));
 	};
 
@@ -45,14 +45,18 @@
                 animation-duration: {animationDuration}s;
             "
 			>
-				<Leaf class="text-primary" />
+				{#if flip > 0.5}
+					<Leaf class="text-primary" />
+				{:else}
+					<LeafyGreen class="text-primary" />
+				{/if}
 			</div>
 		{/each}
 	</div>
 	<div class="absolute inset-0 flex">
 		<Sidebar.Provider>
 			<SideBar />
-			<main class="mx-auto w-full max-w-screen-md space-y-4 p-6 bg-background bg-opacity-75">
+			<main class="mx-auto w-full max-w-screen-md space-y-4 bg-background bg-opacity-75 p-6">
 				{@render children?.()}
 			</main>
 		</Sidebar.Provider>
