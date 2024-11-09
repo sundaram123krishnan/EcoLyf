@@ -1,14 +1,19 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { signIn, signOut } from '$lib/auth-client';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import Calendar from 'lucide-svelte/icons/calendar';
+	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import House from 'lucide-svelte/icons/house';
-	import Inbox from 'lucide-svelte/icons/inbox';
 	import Search from 'lucide-svelte/icons/search';
 	import Settings from 'lucide-svelte/icons/settings';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import ChevronUp from 'lucide-svelte/icons/chevron-up';
-	// Menu items.
+	async function handleSignIn() {
+		await signIn.social({ provider: 'google', callbackURL: '/' });
+	}
+
 	const items = [
 		{
 			title: 'Home',
@@ -17,17 +22,17 @@
 		},
 		{
 			title: 'Products',
-			url: 'products',
+			url: '#',
 			icon: Calendar
 		},
 		{
 			title: 'Activities',
-			url: 'activities',
+			url: '#',
 			icon: Search
 		},
 		{
 			title: 'Footprint',
-			url: 'footprint',
+			url: '#',
 			icon: Settings
 		}
 	];
@@ -54,34 +59,34 @@
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
 	</Sidebar.Content>
-
 	<Sidebar.Footer>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>
-						{#snippet child({ props })}
-							<Sidebar.MenuButton
-								{...props}
-								class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-							>
-								Username
-								<ChevronUp class="ml-auto" />
-							</Sidebar.MenuButton>
-						{/snippet}
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
-						<DropdownMenu.Item>
-							<span>Account</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<span>Sign In</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<span>Sign out</span>
-						</DropdownMenu.Item>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+				{#if $page.data.user}
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							{#snippet child({ props })}
+								<Sidebar.MenuButton
+									{...props}
+									class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+								>
+									{$page.data.user.name}
+									<ChevronUp class="ml-auto" />
+								</Sidebar.MenuButton>
+							{/snippet}
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
+							<DropdownMenu.Item>
+								<span>Account</span>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item onclick={() => signOut()}>
+								<span>Sign out</span>
+							</DropdownMenu.Item>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				{:else}
+					<Button class="w-full" variant="outline" onclick={handleSignIn}>Sign In</Button>
+				{/if}
 			</Sidebar.MenuItem>
 		</Sidebar.Menu>
 	</Sidebar.Footer>
