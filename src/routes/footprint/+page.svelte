@@ -31,13 +31,12 @@
 		color = 'red';
 	}
 	let chart;
-	let chartElement;
-
-	const style = getComputedStyle(document.body);
-	const primaryColor = style.getPropertyValue('--primary').split(' ').join(', ');
-	const foregroundMutedColor = style.getPropertyValue('--muted-foreground').split(' ').join(', ');
+	let chartElement: HTMLCanvasElement;
 
 	onMount(() => {
+		const style = getComputedStyle(document.body);
+		const primaryColor = style.getPropertyValue('--primary').split(' ').join(', ');
+		const foregroundMutedColor = style.getPropertyValue('--muted-foreground').split(' ').join(', ');
 		chart = new Chart(chartElement, {
 			type: 'bar',
 			data: {

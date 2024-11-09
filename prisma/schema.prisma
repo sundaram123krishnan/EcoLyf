@@ -73,7 +73,7 @@ model Food {
   userId   String
   loggedAt DateTime
   name     String
-  ecoscore String
+  emission Float
 
   @@id([userId, loggedAt])
 }
