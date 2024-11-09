@@ -10,7 +10,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"postinstall": "prisma generate"
+		"postinstall": "npx prisma generate"
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.5.6",
