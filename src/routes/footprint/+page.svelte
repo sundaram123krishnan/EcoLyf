@@ -1,23 +1,20 @@
 <script lang="ts">
-	import H1 from '$lib/components/ui/typography/H1.svelte';
-	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
-	import Circularbar from './circularbar.svelte';
+	import * as Tabs from '$lib/components/ui/tabs/index.js';
+	import H1 from '$lib/components/ui/typography/H1.svelte';
 	import {
-		Chart,
-		Tooltip,
-		Legend,
 		BarController,
 		BarElement,
 		CategoryScale,
-		LinearScale
+		Chart,
+		Legend,
+		LinearScale,
+		Tooltip
 	} from 'chart.js';
 	import { onMount } from 'svelte';
-	import { Activity } from 'lucide-svelte';
+	import Circularbar from './circularbar.svelte';
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
+
 	let { data } = $props();
 	let totalEmission = data.activities.reduce((sum, activity) => sum + activity.emission, 0);
 	totalEmission = Number((totalEmission * 100).toFixed(2));
@@ -36,7 +33,6 @@
 	onMount(() => {
 		const style = getComputedStyle(document.body);
 		const primaryColor = style.getPropertyValue('--primary').split(' ').join(', ');
-		const foregroundMutedColor = style.getPropertyValue('--muted-foreground').split(' ').join(', ');
 		chart = new Chart(chartElement, {
 			type: 'bar',
 			data: {
@@ -78,6 +74,6 @@
 		</div>
 	</Tabs.Content>
 </Tabs.Root>
-<div class="mb-2 w-full grow">
+<Card.Root class="mb-2 w-full grow p-4">
 	<canvas bind:this={chartElement} id="chart-canvas"></canvas>
-</div>
+</Card.Root>
