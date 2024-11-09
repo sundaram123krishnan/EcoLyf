@@ -4,6 +4,7 @@
 	import { LoaderCircle } from 'lucide-svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import H1 from '$lib/components/ui/typography/H1.svelte';
 
 	let scannerOpen = $state(true);
 	let fetchingDetails = $state(false);
@@ -1547,6 +1548,8 @@
 		);
 	});
 </script>
+
+<H1>Products</H1>
 
 {#if scannerOpen}
 	<video id="video">

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { signIn, signOut } from '$lib/auth-client';
+	import ModeToggle from '$lib/components/ModeToggle.svelte';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
@@ -62,6 +63,9 @@
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<Sidebar.Menu>
+			<Sidebar.MenuItem>
+				<ModeToggle />
+			</Sidebar.MenuItem>
 			<Sidebar.MenuItem>
 				{#if $page.data.user}
 					<DropdownMenu.Root>
