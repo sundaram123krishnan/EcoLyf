@@ -1,6 +1,14 @@
 <script lang="ts">
 	import '../app.css';
 	let { children } = $props();
+	import SideBar from './SideBar.svelte';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 </script>
 
-{@render children()}
+<Sidebar.Provider>
+	<SideBar />
+	<main>
+		<Sidebar.Trigger />
+		{@render children?.()}
+	</main>
+</Sidebar.Provider>
