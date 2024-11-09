@@ -40,5 +40,8 @@
 	"dependencies": {
 		"@prisma/client": "^5.22.0",
 		"better-auth": "^0.8.1-beta.4"
+	},
+	"dependencies": {
+		"mode-watcher": "^0.4.1"
 	}
 }
