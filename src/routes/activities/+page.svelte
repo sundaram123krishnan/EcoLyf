@@ -2,7 +2,6 @@
 
     import * as Select from "$lib/components/ui/select/index.js";
 
-
 </script>
 
 <h1>Add Activity</h1>
