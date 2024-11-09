@@ -20,22 +20,22 @@
 		if (foodConsumed === undefined) return;
 		let emissionFactor = 0;
 
-		if (selectedValue === 'beef') {
+		if (selectedValue === 'Beef') {
 			const emission = foodConsumed * 2.7;
 			addActivity({ name: 'Food Consumption', emission, time: new Date() });
-		} else if (selectedValue === 'chicken') {
+		} else if (selectedValue === 'Chicken') {
 			const emission = foodConsumed * 6.9;
 			addActivity({ name: 'Food Consumption', emission, time: new Date() });
-		} else if (selectedValue === 'vegetables') {
+		} else if (selectedValue === 'Vegetables') {
 			const emission = foodConsumed * emissionFactor;
 			addActivity({ name: 'Food Consumption', emission, time: new Date() });
 		}
 	}
 </script>
 
-<form onsubmit={foodUsage}>
+<form class="grid grid-cols-2 items-end gap-2" onsubmit={foodUsage}>
 	<div class="flex w-full max-w-sm flex-col gap-1.5">
-		<Label for="electricity-usage">Food Consumed</Label>
+		<Label for="electricity-usage">Food consumed</Label>
 		<Input
 			type="number"
 			id="foodConsumed"
@@ -45,20 +45,23 @@
 		/>
 	</div>
 
-	<Select.Root type="single" bind:value={selectedValue}>
-		<Select.Trigger class="w-fit">
-			{#if selectedValue}
-				{selectedValue}
-			{:else}
-				Select Food Type
-			{/if}
-		</Select.Trigger>
-		<Select.Content>
-			<Select.Item value="beef">Beef</Select.Item>
-			<Select.Item value="chicken">chicken</Select.Item>
-			<Select.Item value="vegetables">vegetables</Select.Item>
-		</Select.Content>
-	</Select.Root>
+	<div class="flex flex-col gap-1.5">
+		<Label>Select food type</Label>
+		<Select.Root type="single" bind:value={selectedValue}>
+			<Select.Trigger class="w-full">
+				{#if selectedValue}
+					{selectedValue}
+				{:else}
+					Select Food Type
+				{/if}
+			</Select.Trigger>
+			<Select.Content>
+				<Select.Item value="Beef">Beef</Select.Item>
+				<Select.Item value="Chicken">Chicken</Select.Item>
+				<Select.Item value="Vegetables">Vegetables</Select.Item>
+			</Select.Content>
+		</Select.Root>
+	</div>
 
-	<Button type="submit">Add activity</Button>
+	<Button type="submit" class="col-span-2 ml-auto mt-4">Add activity</Button>
 </form>

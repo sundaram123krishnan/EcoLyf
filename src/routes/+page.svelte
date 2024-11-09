@@ -1,4 +1,5 @@
 <script lang="ts">
+	import H1 from '$lib/components/ui/typography/H1.svelte';
 </script>
 
-Home
+<H1>Home</H1>

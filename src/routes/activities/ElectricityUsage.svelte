@@ -15,13 +15,14 @@
 	}
 </script>
 
-<form onsubmit={addElectricityUsage}>
+<form class="grid grid-cols-2 gap-2" onsubmit={addElectricityUsage}>
 	<div class="flex w-full max-w-sm flex-col gap-1.5">
 		<Label for="electricity-usage">Electricity usage</Label>
 		<Input
 			type="number"
 			id="electricity-usage"
 			placeholder="in kWh"
+			required
 			step={0.01}
 			bind:value={electricityUsage}
 		/>
@@ -30,11 +31,12 @@
 		<Label for="emission-factor">Emission factor</Label>
 		<Input
 			type="number"
+			required
 			id="emission-factor"
 			placeholder="~0.91 for coal"
 			step={0.01}
 			bind:value={emissionFactor}
 		/>
 	</div>
-	<Button type="submit">Add activity</Button>
+	<Button type="submit" class="col-span-2 ml-auto mt-4">Add activity</Button>
 </form>
