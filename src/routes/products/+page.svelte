@@ -2,6 +2,8 @@
 	import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 	import { onMount } from 'svelte';
 	import { LoaderCircle } from 'lucide-svelte';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let scannerOpen = $state(true);
 	let fetchingDetails = $state(false);
@@ -1546,8 +1548,6 @@
 	});
 </script>
 
-<p>Products</p>
-
 {#if scannerOpen}
 	<video id="video">
 		<track kind="captions" />
@@ -1561,6 +1561,46 @@
 	</div>
 {/if}
 
-{#if productData}
-	{productData.product_name}
-{/if}
+<div>
+	<Card.Root>
+		<Card.Header>
+			<Card.Title>Brand Name</Card.Title>
+			<Card.Description>{productData.product_name}</Card.Description>
+		</Card.Header>
+	</Card.Root>
+
+	<Card.Root>
+		<Card.Header>
+			<Card.Title>Country</Card.Title>
+			<Card.Description>{productData.countries.slice(3)}</Card.Description>
+		</Card.Header>
+	</Card.Root>
+
+	<Card.Root>
+		<Card.Header>
+			<Card.Title>Ecoscore Grade</Card.Title>
+			<Card.Description>{productData.ecoscore_grade}</Card.Description>
+		</Card.Header>
+	</Card.Root>
+
+	<Card.Root>
+		<Card.Header>
+			<Card.Title>Quantity</Card.Title>
+			<Card.Description>{productData.quantity}</Card.Description>
+		</Card.Header>
+	</Card.Root>
+	{#each productData.ingredients_hierarchy as ingredient}
+		<Badge variant="secondary">
+			{ingredient
+				.slice(3)
+				.replace(/-/g, ' ')
+				.replace(/\b\w/g, (char: string) => char.toUpperCase())}
+		</Badge>
+	{/each}
+
+	{#if productData.packaging}
+		<p>{productData.packaging}</p>
+	{/if}
+
+	<img alt="product logo" src={productData.image_url} />
+</div>
