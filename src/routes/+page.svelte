@@ -1,13 +1,14 @@
-
 <script lang="ts">
-
-	import { ModeWatcher } from "mode-watcher";
+	import { ModeWatcher } from 'mode-watcher';
 	let { children } = $props();
-
-
+	import SideBar from './SideBar.svelte';
+	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-<ModeWatcher />
-{@render children?.()}
+<Sidebar.Provider>
+	<SideBar />
+	<main>
+		<Sidebar.Trigger />
+		{@render children?.()}
+	</main>
+</Sidebar.Provider>
