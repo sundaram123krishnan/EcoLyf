@@ -18,22 +18,22 @@
 	const items = [
 		{
 			title: 'Home',
-			url: '#',
+			url: '/',
 			icon: House
 		},
 		{
 			title: 'Products',
-			url: '#',
+			url: '/products',
 			icon: Calendar
 		},
 		{
 			title: 'Activities',
-			url: '#',
+			url: '/activities',
 			icon: Search
 		},
 		{
 			title: 'Footprint',
-			url: '#',
+			url: '/footprint',
 			icon: Settings
 		}
 	];
