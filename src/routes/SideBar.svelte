@@ -41,7 +41,7 @@
 </script>
 
 <Sidebar.Root>
-	<Sidebar.Content>
+	<Sidebar.Content class="bg-background">
 		<Sidebar.Group>
 			<Sidebar.GroupContent>
 				<Sidebar.Menu>
