@@ -6,11 +6,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import Calendar from 'lucide-svelte/icons/calendar';
+	import { Apple, Flame, Footprints } from 'lucide-svelte';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import House from 'lucide-svelte/icons/house';
-	import Search from 'lucide-svelte/icons/search';
-	import Settings from 'lucide-svelte/icons/settings';
 
 	async function handleSignIn() {
 		await signIn.social({ provider: 'google', callbackURL: '/' });
@@ -25,17 +23,17 @@
 		{
 			title: 'Products',
 			url: '/products',
-			icon: Calendar
+			icon: Apple
 		},
 		{
 			title: 'Activities',
 			url: '/activities',
-			icon: Search
+			icon: Flame
 		},
 		{
 			title: 'Footprint',
 			url: '/footprint',
-			icon: Settings
+			icon: Footprints
 		}
 	];
 </script>
@@ -61,7 +59,7 @@
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
 	</Sidebar.Content>
-	<Sidebar.Footer>
+	<Sidebar.Footer class="bg-background">
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
 				<ModeToggle />

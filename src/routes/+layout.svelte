@@ -6,6 +6,7 @@
 	import SideBar from './SideBar.svelte';
 	import { onMount } from 'svelte';
 	import { Leaf, LeafyGreen } from 'lucide-svelte';
+	import { cn } from '$lib/utils';
 
 	let { children } = $props();
 
@@ -35,7 +36,7 @@
 	<div class="container absolute inset-0 -z-50">
 		{#each leaves as { size, rotation, flip, xPos, yPos, animationDuration }, index}
 			<div
-				class="leaf"
+				class={cn('leaf', { 'scale-x-[-1]': flip === 1 })}
 				style="
                 width: {size}px;
                 height: {size}px;
@@ -46,9 +47,9 @@
             "
 			>
 				{#if flip > 0.5}
-					<Leaf class="text-primary" />
+					<Leaf class={cn('text-primary', { 'scale-x-[-1]': flip === 1 })} />
 				{:else}
-					<LeafyGreen class="text-primary" />
+					<LeafyGreen class={cn('text-primary', { 'scale-x-[-1]': flip === 1 })} />
 				{/if}
 			</div>
 		{/each}

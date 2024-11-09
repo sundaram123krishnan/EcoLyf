@@ -39,7 +39,7 @@
 		<Input
 			type="number"
 			id="foodConsumed"
-			placeholder="in km"
+			placeholder="in kg"
 			step={0.01}
 			bind:value={foodConsumed}
 		/>
