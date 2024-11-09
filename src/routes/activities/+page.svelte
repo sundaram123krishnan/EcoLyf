@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
+	import * as Table from '$lib/components/ui/table/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import H1 from '$lib/components/ui/typography/H1.svelte';
@@ -10,11 +11,18 @@
 	import VehicleUsage from './VehicleUsage.svelte';
 	import WasteDisposal from './WasteDisposal.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
+	import { toast } from 'svelte-sonner';
 
+	let { data } = $props();
 	let activities: Activity[] = $state([]);
 	let selectedValue = $state<string>();
 
-	function addActivity(activity: Activity) {
+	async function addActivity(activity: Activity) {
+		const response = await fetch('/api/activities', {
+			method: 'POST',
+			body: JSON.stringify(activity)
+		});
+		toast.success(await response.text());
 		activities.push(activity);
 	}
 
@@ -28,7 +36,34 @@
 		<Tabs.Trigger value="table">All activities</Tabs.Trigger>
 		<Tabs.Trigger value="add">Add activity</Tabs.Trigger>
 	</Tabs.List>
-	<Tabs.Content value="table"></Tabs.Content>
+	<Tabs.Content value="table">
+		<Table.Root>
+			<Table.Caption>A list of your activities.</Table.Caption>
+			<Table.Header>
+				<Table.Row>
+					<Table.Head class="w-[100px]">No.</Table.Head>
+					<Table.Head>Datetime</Table.Head>
+					<Table.Head>Name</Table.Head>
+					<Table.Head class="text-right">Emissions</Table.Head>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				{#each data.activities as activity, idx}
+					<Table.Row>
+						<Table.Cell class="font-medium">{idx + 1}</Table.Cell>
+						<Table.Cell>
+							{activity.createdAt.toLocaleString(undefined, {
+								dateStyle: 'short',
+								timeStyle: 'short'
+							})}
+						</Table.Cell>
+						<Table.Cell>{activity.name}</Table.Cell>
+						<Table.Cell class="text-right">{activity.emission}</Table.Cell>
+					</Table.Row>
+				{/each}
+			</Table.Body>
+		</Table.Root>
+	</Tabs.Content>
 	<Tabs.Content value="add">
 		<Card.Root>
 			<Card.Header>

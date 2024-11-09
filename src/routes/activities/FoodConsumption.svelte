@@ -22,13 +22,13 @@
 
 		if (selectedValue === 'Beef') {
 			const emission = foodConsumed * 2.7;
-			addActivity({ name: 'Food Consumption', emission, time: new Date() });
+			addActivity({ name: 'Food Consumption', emission, createdAt: new Date() });
 		} else if (selectedValue === 'Chicken') {
 			const emission = foodConsumed * 6.9;
-			addActivity({ name: 'Food Consumption', emission, time: new Date() });
+			addActivity({ name: 'Food Consumption', emission, createdAt: new Date() });
 		} else if (selectedValue === 'Vegetables') {
 			const emission = foodConsumed * emissionFactor;
-			addActivity({ name: 'Food Consumption', emission, time: new Date() });
+			addActivity({ name: 'Food Consumption', emission, createdAt: new Date() });
 		}
 	}
 </script>

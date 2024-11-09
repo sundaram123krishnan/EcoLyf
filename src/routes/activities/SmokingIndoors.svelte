@@ -10,7 +10,7 @@
 	function cigaretteUsage() {
 		if (cigaretteSmoked === undefined) return;
 		const emission = cigaretteSmoked * 0.2;
-		addActivity({ name: 'Cigarettes Smoked', emission, time: new Date() });
+		addActivity({ name: 'Cigarettes Smoked', emission, createdAt: new Date() });
 	}
 </script>
 

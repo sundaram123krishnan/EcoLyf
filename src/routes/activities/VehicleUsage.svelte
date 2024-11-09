@@ -19,10 +19,10 @@
 			return;
 		if (selectedValue === 'Petrol') {
 			let footprint = (distanceTraveled * fuelEfficiency * 2.31) / 100;
-			addActivity({ name: 'Vehicles', emission: footprint, time: new Date() });
+			addActivity({ name: 'Vehicles', emission: footprint, createdAt: new Date() });
 		} else if (selectedValue === 'Diesel') {
 			let footprint = (distanceTraveled * fuelEfficiency * 2.68) / 100;
-			addActivity({ name: 'Vehicles', emission: footprint, time: new Date() });
+			addActivity({ name: 'Vehicles', emission: footprint, createdAt: new Date() });
 		}
 		console.log(selectedValue);
 	}

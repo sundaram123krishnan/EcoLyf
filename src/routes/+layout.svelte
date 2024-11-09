@@ -1,11 +1,13 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import '../app.css';
 	import SideBar from './SideBar.svelte';
 
 	let { children } = $props();
 </script>
 
+<Toaster />
 <Sidebar.Provider>
 	<SideBar />
 	<main class="mx-auto w-full max-w-screen-md space-y-4 p-6">

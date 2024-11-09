@@ -19,13 +19,13 @@
 			return;
 		if (selectedValue === 'Landfill') {
 			const emission = wasteGenerated * 0.002;
-			addActivity({ name: 'Waste', emission, time: new Date() });
+			addActivity({ name: 'Waste', emission, createdAt: new Date() });
 		} else if (selectedValue === 'Compostable') {
 			const emission = wasteGenerated * 0.005;
-			addActivity({ name: 'Waste', emission, time: new Date() });
+			addActivity({ name: 'Waste', emission, createdAt: new Date() });
 		} else if (selectedValue === 'Recyclable') {
 			const emission = wasteGenerated * 0.775;
-			addActivity({ name: 'Waste', emission, time: new Date() });
+			addActivity({ name: 'Waste', emission, createdAt: new Date() });
 		}
 	}
 </script>

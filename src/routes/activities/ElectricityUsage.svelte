@@ -11,7 +11,7 @@
 	function addElectricityUsage() {
 		if (electricityUsage === undefined || emissionFactor === undefined) return;
 		const emission = electricityUsage * emissionFactor;
-		addActivity({ name: 'Electricity usage', emission, time: new Date() });
+		addActivity({ name: 'Electricity usage', emission, createdAt: new Date() });
 	}
 </script>
 

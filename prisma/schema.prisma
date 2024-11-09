@@ -8,8 +8,8 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String     @id @default(cuid())
+  email         String     @unique
   name          String?
   emailVerified Boolean
   image         String?
@@ -17,6 +17,8 @@ model User {
   updatedAt     DateTime
   Session       Session[]
   Account       Account[]
+  Activity      Activity[]
+  Food          Food[]
 
   @@map("user")
 }
@@ -54,4 +56,24 @@ model Verification {
   expiresAt  DateTime
 
   @@map("verification")
+}
+
+model Activity {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime
+  name      String
+  emission  Float
+
+  @@id([userId, createdAt])
+}
+
+model Food {
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  loggedAt DateTime
+  name     String
+  ecoscore String
+
+  @@id([userId, loggedAt])
 }

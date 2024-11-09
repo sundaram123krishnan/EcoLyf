@@ -1,1 +1,1 @@
-export type Activity = { name: string; time: Date; emission: number };
+export type Activity = { name: string; createdAt: Date; emission: number };
