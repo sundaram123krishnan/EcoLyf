@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import { mode } from 'mode-watcher';
 	import { createNoise3D } from 'simplex-noise';
 	import { onMount } from 'svelte';
 
@@ -65,7 +66,7 @@
 
 	let animationId: number;
 	const render = () => {
-		ctx.fillStyle = backgroundFill || 'black';
+		ctx.fillStyle = backgroundFill || ($mode === 'dark' ? 'black' : 'white');
 		ctx.globalAlpha = waveOpacity || 0.5;
 		ctx.fillRect(0, 0, w, h);
 		drawWave(5);
