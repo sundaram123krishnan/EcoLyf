@@ -1,7 +1,8 @@
 <script lang="ts">
-	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { CardStack } from '$lib/components/ui/CardStack';
+
+	let { data } = $props();
 
 	const IMAGES = [
 		{ id: 0, image: '/Activities.png', text: 'Log your activities' },
@@ -21,19 +22,19 @@
 		<Card.Root>
 			<Card.Content class="space-y-4 p-4 text-center">
 				<Card.Description class="text-center">Activities</Card.Description>
-				<p class="text-xl font-bold">12</p>
+				<p class="text-xl font-bold">{data.activityCount}</p>
 			</Card.Content>
 		</Card.Root>
 		<Card.Root>
 			<Card.Content class="space-y-4 p-4 text-center">
 				<Card.Description class="text-center">Foods</Card.Description>
-				<p class="text-xl font-bold">12</p>
+				<p class="text-xl font-bold">{data.foodCount}</p>
 			</Card.Content>
 		</Card.Root>
 		<Card.Root>
 			<Card.Content class="space-y-4 p-4 text-center">
 				<Card.Description class="text-center">Emissions</Card.Description>
-				<p class="text-xl font-bold">12</p>
+				<p class="text-xl font-bold">{data.totalEmission}</p>
 			</Card.Content>
 		</Card.Root>
 		<span class="col-span-3 text-center italic text-muted-foreground">have been tracked!</span>

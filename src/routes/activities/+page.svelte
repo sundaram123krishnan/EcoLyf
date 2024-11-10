@@ -14,7 +14,6 @@
 	import { toast } from 'svelte-sonner';
 
 	let { data } = $props();
-	let activities: Activity[] = $state([]);
 	let selectedValue = $state<string>();
 
 	async function addActivity(activity: Activity) {
@@ -23,10 +22,7 @@
 			body: JSON.stringify(activity)
 		});
 		toast.success(await response.text());
-		activities.push(activity);
 	}
-
-	$inspect(activities);
 </script>
 
 <H1>Activities</H1>
