@@ -47,10 +47,10 @@
 		>
 			<div
 				use:motion
-				class="absolute flex h-60 w-60 flex-col justify-between rounded-3xl border border-neutral-200 bg-white p-4 shadow-xl shadow-black/[0.1] dark:border-white/[0.1] dark:bg-black dark:shadow-white/[0.05] md:h-80 md:w-full"
+				class="absolute flex h-60 w-60 flex-col justify-between rounded-3xl border border-neutral-200 bg-background/90 p-4 shadow-xl shadow-black/[0.1] dark:border-white/[0.1] dark:shadow-white/[0.05] md:h-80 md:w-full"
 			>
 				<img src={card.image} alt="screenshot of the app" class="m-auto max-h-96 max-w-96" />
-				<p class="text-center font-medium text-neutral-500 dark:text-white mt-2">
+				<p class="text-center">
 					{card.text}
 				</p>
 			</div>

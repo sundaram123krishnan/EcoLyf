@@ -47,6 +47,7 @@
 		"@zxing/library": "^0.21.3",
 		"better-auth": "^0.8.1-beta.4",
 		"chart.js": "^4.4.6",
+		"simplex-noise": "^4.0.3",
 		"svelte-motion": "^0.12.2"
 	}
 }
