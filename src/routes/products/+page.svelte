@@ -1605,7 +1605,7 @@
 {/if}
 
 {#if productData}
-	<div class="grid grid-cols-2 grid-rows-3 gap-2">
+	<div class="grid grid-cols-2 gap-2">
 		<Card.Root>
 			<Card.Header class="py-6">
 				<Card.Title>Product name</Card.Title>
@@ -1625,7 +1625,9 @@
 		<Card.Root>
 			<Card.Header class="py-6">
 				<Card.Title>Ecoscore grade</Card.Title>
-				<Card.Description>{productData.ecoscore_grade}</Card.Description>
+				<Card.Description>
+					<img src={`/Ecoscore ${productData.ecoscore_grade.toUpperCase()}.png`} alt="ecoscore" />
+				</Card.Description>
 			</Card.Header>
 		</Card.Root>
 
