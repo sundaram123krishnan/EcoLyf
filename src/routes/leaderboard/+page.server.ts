@@ -8,5 +8,8 @@ export const load = async ({ parent }) => {
 	const userData = await prisma.user.findMany({
 		select: { Activity: { select: { emission: true } }, name: true }
 	});
-	return { userData };
+	const familyData = await prisma.family.findMany({
+		include: { members: { include: { Activity: true } } }
+	});
+	return { userData, familyData };
 };
