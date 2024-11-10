@@ -38,14 +38,13 @@
 	const userResponse: Record<string, string> = {
 		'sundaram krishnan': `Use Renewable Energy: Opt for solar, wind or hydroelectric power. Reduce Vehicle Emissions: Use public transport. Save Energy: Use efficient appliances and turn off unused electronics`,
 		'Yash Kolekar':
-			'Conserve Water: Reducing water usage cuts energy. Limit Air Travel, Recycle and compost: Reduce waste in landfills, which lowers methane emissions'
+			'Reducing vehicle usage helps cut down on harmful emissions, preserving air quality and reducing our carbon footprint. Consider carpooling, using public transport, or biking for a more sustainable commute and a healthier planet.'
 	};
 
 	let chartElement: HTMLCanvasElement;
 	let filteredText = $derived(userResponse[data.user.name as string]);
 
 	onMount(() => {
-		const style = getComputedStyle(document.body);
 		new Chart(chartElement, {
 			type: 'bar',
 			data: {
