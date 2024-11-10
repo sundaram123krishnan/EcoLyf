@@ -13,6 +13,7 @@
 	} from 'chart.js';
 	import { onMount } from 'svelte';
 	import Circularbar from './circularbar.svelte';
+	import { DirectionAwareHover } from '$lib/components/DirectionAwareHover';
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 
 	let { data } = $props();
@@ -53,22 +54,23 @@
 <H1>Footprint</H1>
 
 <div class="grid grid-cols-2">
-	<Card.Root>
-		<Card.Header>
-			<Card.Title>Top 5 Emission Activities</Card.Title>
-			<Card.Description>Here are the activities with the highest emissions.</Card.Description>
-		</Card.Header>
-		<Card.Content class="space-y-2">
-			<ul class="space-y-1">
-				{#each sortedActivities as activity}
-					<li>{activity.name}: {activity.emission}</li>
+	<div class="relative flex items-center justify-center">
+		<div class="absolute left-0 top-0 rounded-t-md p-2 z-20 w-full bg-black/60 text-white">
+			<p class="text-xl font-bold">Total emissions</p>
+			<p class="text-sm font-normal"><span class="font-semibold">{totalEmission}</span> CO2/kg</p>
+		</div>
+		<DirectionAwareHover
+			imageUrl="https://png.pngtree.com/thumb_back/fh260/background/20200807/pngtree-honeycomb-carbon-fiber-background-dark-and-blue-tones-image_387338.jpg"
+		>
+			<p class="text-lg font-medium">Top 5 emissions today:</p>
+			<ul class="ml-4 list-disc text-sm">
+				{#each sortedActivities.slice(0, 5) as activity}
+					<li>{activity.name}</li>
 				{/each}
 			</ul>
-		</Card.Content>
-		<Card.Footer>
-			<p>Total Emission: {totalEmission} %</p>
-		</Card.Footer>
-	</Card.Root>
+		</DirectionAwareHover>
+	</div>
+
 	<div class="p-6">
 		<Circularbar {color} value={Number((totalEmission / 12.3).toFixed(1))}></Circularbar>
 	</div>
