@@ -1,9 +1,10 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card/index.js';
-	import * as Tabs from '$lib/components/ui/tabs/index.js';
-	import H1 from '$lib/components/ui/typography/H1.svelte';
+	import { DirectionAwareHover } from '$lib/components/DirectionAwareHover';
+	import TextGenerateEffect from '$lib/components/TextGenerateEffect/TextGenerateEffect.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
-
+	import * as Card from '$lib/components/ui/card/index.js';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import H1 from '$lib/components/ui/typography/H1.svelte';
 	import {
 		BarController,
 		BarElement,
@@ -13,19 +14,19 @@
 		LinearScale,
 		Tooltip
 	} from 'chart.js';
+	import { Brain } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import Circularbar from './circularbar.svelte';
-	import { DirectionAwareHover } from '$lib/components/DirectionAwareHover';
-	import TextGenerateEffect from '$lib/components/TextGenerateEffect/TextGenerateEffect.svelte';
 
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 
 	let { data } = $props();
-	let totalEmission = data.activities.reduce((sum, activity) => sum + activity.emission, 0);
-	totalEmission = Number((totalEmission * 100).toFixed(2));
+	let totalEmission = $state(
+		Number((data.activities.reduce((sum, activity) => sum + activity.emission, 0) * 100).toFixed(2))
+	);
 
 	let sortedActivities = [...data.activities].sort((a, b) => b.emission - a.emission).slice(0, 5);
-	let color = '';
+	let color = $state('');
 	if (totalEmission < 50) {
 		color = 'green';
 	} else if (totalEmission >= 75 && totalEmission <= 100) {
@@ -34,27 +35,18 @@
 		color = 'red';
 	}
 
-	const userResponse = {
-		sundaram: `Use Renewable Energy: Opt for solar, wind or hydroelectric power. Reduce Vehicle Emissions: Use public transport. Save Energy: Use efficient appliances and turn off unused electronics`,
-		yash: 'Conserve Water: Reducing water usage cuts energy. Limit Air Travel, Recycle and compost: Reduce waste in landfills, which lowers methane emissions'
+	const userResponse: Record<string, string> = {
+		'sundaram krishnan': `Use Renewable Energy: Opt for solar, wind or hydroelectric power. Reduce Vehicle Emissions: Use public transport. Save Energy: Use efficient appliances and turn off unused electronics`,
+		'Yash Kolekar':
+			'Conserve Water: Reducing water usage cuts energy. Limit Air Travel, Recycle and compost: Reduce waste in landfills, which lowers methane emissions'
 	};
 
-	let chart;
 	let chartElement: HTMLCanvasElement;
-	let generatedText = $state<string>();
-
-	let toggle = $state(false);
-	function toggler() {
-		if (totalEmission >= 75) {
-			toggle = true;
-		}
-	}
-	let filteredText = $state<string>(userResponse.sundaram);
+	let filteredText = $derived(userResponse[data.user.name as string]);
 
 	onMount(() => {
 		const style = getComputedStyle(document.body);
-		const primaryColor = style.getPropertyValue('--primary').split(' ').join(', ');
-		chart = new Chart(chartElement, {
+		new Chart(chartElement, {
 			type: 'bar',
 			data: {
 				labels: data.activities.map((activity) => activity.name),
@@ -72,8 +64,8 @@
 
 <H1>Footprint</H1>
 
-<div class="grid grid-cols-2">
-	<div class="relative flex items-center justify-center">
+<div class="grid grid-cols-2 gap-2">
+	<div class="relative flex h-fit items-center justify-center">
 		<div class="absolute left-0 top-0 z-20 w-full rounded-t-md bg-black/60 p-2 text-white">
 			<p class="text-xl font-bold">Total emissions</p>
 			<p class="text-sm font-normal"><span class="font-semibold">{totalEmission}</span> CO2/kg</p>
@@ -90,16 +82,34 @@
 		</DirectionAwareHover>
 	</div>
 
-	<div class="p-6">
-		<Circularbar {color} value={Number((totalEmission / 12.3).toFixed(1))}></Circularbar>
-	</div>
+	<Card.Root class="p-6">
+		<Card.Content class="p-2">
+			<Circularbar {color} value={Number((totalEmission / 12.3).toFixed(1))}></Circularbar>
+		</Card.Content>
+		{#if Number((totalEmission / 12.3).toFixed(1)) >= 75}
+			<Card.Footer class="p-2">
+				<Dialog.Root>
+					<Dialog.Trigger>
+						{#snippet child({ props })}
+							<Button class="mx-auto" {...props}>
+								Suggest improvements
+								<Brain />
+							</Button>
+						{/snippet}
+					</Dialog.Trigger>
+					<Dialog.Content>
+						<Dialog.Header>
+							<Dialog.Title>AI suggestions</Dialog.Title>
+							<Dialog.Description>Based on your activities.</Dialog.Description>
+						</Dialog.Header>
+						<TextGenerateEffect words={filteredText} />
+					</Dialog.Content>
+				</Dialog.Root>
+			</Card.Footer>
+		{/if}
+	</Card.Root>
 </div>
+
 <Card.Root class="w-full grow p-4">
 	<canvas bind:this={chartElement} id="chart-canvas"></canvas>
 </Card.Root>
-<div>
-	<Button onclick={toggler}>Suggest</Button>
-	{#if toggle}
-		<TextGenerateEffect words={filteredText} />
-	{/if}
-</div>
