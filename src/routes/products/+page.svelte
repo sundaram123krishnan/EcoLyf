@@ -1543,6 +1543,7 @@
 	}
 
 	function estimateEmissions(grade: string, quantity: string) {
+		if (grade === 'unknown') grade = 'c';
 		grade = grade.toUpperCase();
 		const numQuantity = getNumbers(quantity)[0] / 1000;
 		const emissionsFactors: Record<string, number> = {
