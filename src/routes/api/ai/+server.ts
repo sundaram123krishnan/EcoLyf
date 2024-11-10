@@ -5,7 +5,7 @@ export const POST = async ({ request }) => {
     const text = await request.json();
     async function query(data) {
 		const response = await fetch(
-			'https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-3B-Instruct',
+			'https://api-inference.huggingface.co/models/HuggingFaceTB/SmolLM2-1.7B-Instruct',
 			{
 				method: 'POST',
 				headers: {

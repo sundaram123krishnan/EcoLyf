@@ -28,8 +28,11 @@
 	} else {
 		color = 'red';
 	}
+
+	let filteredText = $state<string>();
 	let chart;
 	let chartElement: HTMLCanvasElement;
+	let generatedText = $state<string>();
 
 	onMount(() => {
 		const style = getComputedStyle(document.body);
@@ -48,6 +51,21 @@
 			}
 		});
 	});
+
+	
+	async function generateSuggestions() {
+		const response = await fetch('/api/ai', {
+			method: 'POST',
+			body: JSON.stringify(
+				`give me suggestions to improve my carbon emissions based on the following data: ${JSON.stringify(data.activities)}`
+			)
+		});
+		const generatedText = await response.text();
+		
+		const start = generatedText.indexOf("rply") + "rply".length;
+		const result = generatedText.slice(start).trim().slice(3).slice(0, -3);
+		filteredText = result;
+	}
 </script>
 
 <H1>Footprint</H1>
@@ -75,4 +93,10 @@
 </div>
 <Card.Root class="w-full grow p-4">
 	<canvas bind:this={chartElement} id="chart-canvas"></canvas>
+</Card.Root>
+<Card.Root>
+	<button onclick={generateSuggestions}>click</button>
+	{#if filteredText}
+		<p>{filteredText}</p>
+	{/if}
 </Card.Root>
