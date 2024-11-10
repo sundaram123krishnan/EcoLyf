@@ -43,7 +43,7 @@
 				{#each sortedUserData as userData, idx}
 					<Table.Row>
 						<Table.Cell class="inline-flex items-center gap-2 font-medium">
-							{#if idx < 2}
+							{#if idx <= 2}
 								<Medal class="text-primary" />
 							{/if}
 							{idx + 1}
@@ -71,7 +71,7 @@
 				{#each sortedFamilyData as familyData, idx}
 					<Table.Row>
 						<Table.Cell class="inline-flex items-center gap-2 font-medium">
-							{#if idx < 2}
+							{#if idx <= 2}
 								<Medal class="text-primary" />
 							{/if}
 							{idx + 1}
