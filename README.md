@@ -1,38 +1,48 @@
-# sv
+# ![image](https://github.com/user-attachments/assets/7644a374-3ad3-446b-bb23-881f35385d37)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Creating a project
+**Ecolyf** is an application designed to track and reduce carbon footprints by monitoring daily activities and providing AI-based suggestions for eco-friendly living.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npx sv create
+- **Daily Carbon Tracking**: Log activities to see their carbon impact.
+- **AI-based Suggestions**: Receive personalized tips for reducing emissions.
+- **Eco-Score**: Visualize your eco-friendliness progress with a measurable score.
+- **Data Visualization**: View trends and track improvements over time.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Technology Stack
 
-## Developing
+- **Prisma**: Database management and ORM
+- **PostgreSQL**: Data storage for user activities and eco-scores
+- **Svelte**: Lightweight frontend for a smooth, responsive user experience
+- **TypeScript**: Ensures robust and maintainable code
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Live Application
 
-```bash
-npm run dev
+[Visit Ecolyf](https://eco-lyf.vercel.app)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## Getting Started
 
-## Building
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/ecolyf.git
+   cd ecolyf
+   ```
 
-To create a production version of your app:
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run build
-```
+3. **Set Up Database**:
+   Configure your PostgreSQL database in `.env` and run migrations:
+   ```bash
+   npx prisma migrate dev
+   ```
 
-You can preview the production build with `npm run preview`.
+4. **Run the App**:
+   ```bash
+   npm run dev
+   ```
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Let me know if you need any more details!
