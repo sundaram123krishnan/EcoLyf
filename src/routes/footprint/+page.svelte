@@ -17,6 +17,7 @@
 	import { Brain } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import Circularbar from './circularbar.svelte';
+	import test from 'node:test';
 
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 
@@ -33,6 +34,14 @@
 		color = 'yellow';
 	} else {
 		color = 'red';
+	}
+
+	async function testModel() {
+		const response = await fetch("/api/ai", {
+			method: "POST", 
+			body: JSON.stringify("ways to minimize carbon emission"),
+		});
+		console.log(await response.json());
 	}
 
 	const userResponse: Record<string, string> = {
