@@ -1,11 +1,9 @@
-
-
 export const POST = async ({ request }) => {
+	const text = await request.json();
 
-    const text = await request.json();
-    async function query(data) {
+	async function query(data: { inputs: any }) {
 		const response = await fetch(
-			'https://api-inference.huggingface.co/models/google/gemma-2-2b-it',
+			'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3',
 			{
 				method: 'POST',
 				headers: {
@@ -15,10 +13,11 @@ export const POST = async ({ request }) => {
 				body: JSON.stringify(data)
 			}
 		);
-		const result = await response.json();
+		const result = await response.text();
 		return result;
 	}
-	const result = await query({ inputs: text});
-    
-	return new Response(JSON.stringify(result), { status: 200 });
+	const result = JSON.parse(await query({ inputs: text }))[0].generated_text;
+	const filteredResult = result.replace(text, '').trim();
+
+	return new Response(filteredResult, { status: 200 });
 };

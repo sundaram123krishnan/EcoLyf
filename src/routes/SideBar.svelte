@@ -6,7 +6,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Apple, Flame, Footprints, Medal } from 'lucide-svelte';
+	import { Apple, Flame, Footprints, Leaf, Medal } from 'lucide-svelte';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import House from 'lucide-svelte/icons/house';
 
@@ -44,6 +44,10 @@
 </script>
 
 <Sidebar.Root>
+	<Sidebar.Header class="flex w-full flex-row items-center font-bold">
+		<Leaf class="text-primary" />
+		<span>EcoLyf</span>
+	</Sidebar.Header>
 	<Sidebar.Content class="bg-background">
 		<Sidebar.Group>
 			<Sidebar.GroupContent>

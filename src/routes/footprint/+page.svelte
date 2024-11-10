@@ -14,10 +14,9 @@
 		LinearScale,
 		Tooltip
 	} from 'chart.js';
-	import { Brain } from 'lucide-svelte';
+	import { Brain, LoaderCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import Circularbar from './circularbar.svelte';
-	import test from 'node:test';
 
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 
@@ -28,30 +27,22 @@
 
 	let sortedActivities = [...data.activities].sort((a, b) => b.emission - a.emission).slice(0, 5);
 	let color = $state('');
-	if (totalEmission < 50) {
-		color = 'green';
-	} else if (totalEmission >= 75 && totalEmission <= 100) {
-		color = 'yellow';
-	} else {
-		color = 'red';
-	}
 
-	async function testModel() {
-		const response = await fetch("/api/ai", {
-			method: "POST", 
-			body: JSON.stringify("ways to minimize carbon emission"),
+	if (totalEmission < 50) color = 'green';
+	else if (totalEmission >= 75 && totalEmission <= 100) color = 'yellow';
+	else color = 'red';
+
+	async function getAISuggestions() {
+		const response = await fetch('/api/ai', {
+			method: 'POST',
+			body: JSON.stringify(
+				`Give me some suggestions to reduce my emissions based on this data: ${JSON.stringify(data.activities)}. Don't repeat the data, and just give me small actionable steps in the output`
+			)
 		});
-		console.log(await response.json());
+		return (await response.text()) as string;
 	}
-
-	const userResponse: Record<string, string> = {
-		'sundaram krishnan': `Use Renewable Energy: Opt for solar, wind or hydroelectric power. Reduce Vehicle Emissions: Use public transport. Save Energy: Use efficient appliances and turn off unused electronics`,
-		'Yash Kolekar':
-			'Reducing vehicle usage helps cut down on harmful emissions, preserving air quality and reducing our carbon footprint. Consider carpooling, using public transport, or biking for a more sustainable commute and a healthier planet.'
-	};
 
 	let chartElement: HTMLCanvasElement;
-	let filteredText = $derived(userResponse[data.user.name as string]);
 
 	onMount(() => {
 		new Chart(chartElement, {
@@ -110,7 +101,14 @@
 							<Dialog.Title>AI suggestions</Dialog.Title>
 							<Dialog.Description>Based on your activities.</Dialog.Description>
 						</Dialog.Header>
-						<TextGenerateEffect words={filteredText} />
+						{#await getAISuggestions()}
+							<div class="flex gap-2">
+								<LoaderCircle class="animate-spin" />
+								<p>Analyzing your activities</p>
+							</div>
+						{:then generatedText}
+							<TextGenerateEffect words={generatedText} />
+						{/await}
 					</Dialog.Content>
 				</Dialog.Root>
 			</Card.Footer>

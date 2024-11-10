@@ -3,7 +3,7 @@
 	import { cn } from '$lib/utils';
 
 	export let words: string;
-	export let className: string = "";
+	export let className: string = '';
 
 	const variants = {
 		visible: (i: number) => ({
@@ -17,9 +17,9 @@
 	};
 </script>
 
-<div class={cn('font-bold', className)}>
+<div class={cn(className)}>
 	<div class="mt-4">
-		<div class=" text-2xl leading-snug tracking-wide text-black dark:text-white">
+		<div class="text-base leading-snug tracking-wide text-black dark:text-white">
 			<Motion let:motion custom={0} {variants} initial="hidden" animate={'visible'}>
 				<div use:motion>
 					{#each words.split(' ') as word, idx (`${word}${idx}`)}
