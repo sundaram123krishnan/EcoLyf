@@ -94,7 +94,9 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
 							<DropdownMenu.Item>
-								<span>Account</span>
+								{#snippet child({ props })}
+									<a {...props} href="/account">Account</a>
+								{/snippet}
 							</DropdownMenu.Item>
 							<DropdownMenu.Item onclick={() => signOut()}>
 								<span>Sign out</span>

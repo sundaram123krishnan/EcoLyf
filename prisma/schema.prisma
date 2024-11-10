@@ -18,6 +18,8 @@ model User {
   Session       Session[]
   Account       Account[]
   Activity      Activity[]
+  family        Family?    @relation(fields: [familyId], references: [familyId])
+  familyId      String?
 
   @@map("user")
 }
@@ -66,4 +68,10 @@ model Activity {
   isFood    Boolean  @default(false)
 
   @@id([userId, createdAt])
+}
+
+model Family {
+  familyName String
+  familyId   String @id @default(uuid())
+  members    User[]
 }
