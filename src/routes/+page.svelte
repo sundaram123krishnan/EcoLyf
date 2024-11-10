@@ -7,7 +7,10 @@
 
 	const IMAGES = [
 		{ id: 0, image: '/Activities.png', text: 'Log your activities' },
-		{ id: 1, image: '/Activities.png', text: 'Log your activities' }
+		{ id: 1, image: '/localhost_5173_activities.png', text: 'Show activities' },
+		{ id: 2, image: '/image.png', text: 'Add Products' },
+		{ id: 3, image: '/image1.png', text: 'LeaderBoard' }
+
 	];
 </script>
 

@@ -54,7 +54,7 @@
 							})}
 						</Table.Cell>
 						<Table.Cell>{activity.name}</Table.Cell>
-						<Table.Cell class="text-right">{activity.emission}</Table.Cell>
+						<Table.Cell class="text-right">{activity.emission.toFixed(2)}</Table.Cell>
 					</Table.Row>
 				{/each}
 			</Table.Body>
