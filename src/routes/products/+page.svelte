@@ -1565,7 +1565,8 @@
 			body: JSON.stringify({
 				createdAt: new Date(),
 				name: productData.product_name,
-				emission: estimateEmissions(productData.ecoscore_grade.toUpperCase(), productData.quantity)
+				emission: estimateEmissions(productData.ecoscore_grade.toUpperCase(), productData.quantity),
+				isFood: true
 			})
 		});
 		toast.success(await response.text());
