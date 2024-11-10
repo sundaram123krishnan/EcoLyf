@@ -6,7 +6,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Apple, Flame, Footprints } from 'lucide-svelte';
+	import { Apple, Flame, Footprints, Medal } from 'lucide-svelte';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import House from 'lucide-svelte/icons/house';
 
@@ -34,6 +34,11 @@
 			title: 'Footprint',
 			url: '/footprint',
 			icon: Footprints
+		},
+		{
+			title: 'Leaderboard',
+			url: '/leaderboard',
+			icon: Medal
 		}
 	];
 </script>
