@@ -2,6 +2,8 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import H1 from '$lib/components/ui/typography/H1.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+
 	import {
 		BarController,
 		BarElement,
@@ -14,6 +16,8 @@
 	import { onMount } from 'svelte';
 	import Circularbar from './circularbar.svelte';
 	import { DirectionAwareHover } from '$lib/components/DirectionAwareHover';
+	import TextGenerateEffect from '$lib/components/TextGenerateEffect/TextGenerateEffect.svelte';
+
 	Chart.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale);
 
 	let { data } = $props();
@@ -30,10 +34,22 @@
 		color = 'red';
 	}
 
-	let filteredText = $state<string>();
+	const userResponse = {
+		sundaram: `Use Renewable Energy: Opt for solar, wind or hydroelectric power. Reduce Vehicle Emissions: Use public transport. Save Energy: Use efficient appliances and turn off unused electronics`,
+		yash: 'Conserve Water: Reducing water usage cuts energy. Limit Air Travel, Recycle and compost: Reduce waste in landfills, which lowers methane emissions'
+	};
+
 	let chart;
 	let chartElement: HTMLCanvasElement;
 	let generatedText = $state<string>();
+
+	let toggle = $state(false);
+	function toggler() {
+		if (totalEmission >= 75) {
+			toggle = true;
+		}
+	}
+	let filteredText = $state<string>(userResponse.sundaram);
 
 	onMount(() => {
 		const style = getComputedStyle(document.body);
@@ -46,34 +62,19 @@
 					{
 						label: 'Emissions',
 						data: data.activities.map((activity) => activity.emission),
-						backgroundColor: [`hsl(${primaryColor})`]
+						backgroundColor: ['green']
 					}
 				]
 			}
 		});
 	});
-
-	
-	async function generateSuggestions() {
-		const response = await fetch('/api/ai', {
-			method: 'POST',
-			body: JSON.stringify(
-				`give me suggestions to improve my carbon emissions based on the following data: ${JSON.stringify(data.activities)}`
-			)
-		});
-		const generatedText = await response.text();
-		
-		const start = generatedText.indexOf("rply") + "rply".length;
-		const result = generatedText.slice(start).trim().slice(3).slice(0, -3);
-		filteredText = result;
-	}
 </script>
 
 <H1>Footprint</H1>
 
 <div class="grid grid-cols-2">
 	<div class="relative flex items-center justify-center">
-		<div class="absolute left-0 top-0 rounded-t-md p-2 z-20 w-full bg-black/60 text-white">
+		<div class="absolute left-0 top-0 z-20 w-full rounded-t-md bg-black/60 p-2 text-white">
 			<p class="text-xl font-bold">Total emissions</p>
 			<p class="text-sm font-normal"><span class="font-semibold">{totalEmission}</span> CO2/kg</p>
 		</div>
@@ -96,9 +97,9 @@
 <Card.Root class="w-full grow p-4">
 	<canvas bind:this={chartElement} id="chart-canvas"></canvas>
 </Card.Root>
-<Card.Root>
-	<button onclick={generateSuggestions}>click</button>
-	{#if filteredText}
-		<p>{filteredText}</p>
+<div>
+	<Button onclick={toggler}>Suggest</Button>
+	{#if toggle}
+		<TextGenerateEffect words={filteredText} />
 	{/if}
-</Card.Root>
+</div>
